@@ -16,5 +16,12 @@
   "bugs": {
     "url": "https://github.com/britneyross/news-scrape/issues"
   },
-  "homepage": "https://github.com/britneyross/news-scrape#readme"
+  "homepage": "https://github.com/britneyross/news-scrape#readme",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.3",
+    "express": "^4.17.1",
+    "express-handlebars": "^4.0.4",
+    "mongoose": "^5.9.17",
+    "morgan": "^1.10.0"
+  }
 }

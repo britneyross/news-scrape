@@ -1,0 +1,43 @@
+.jumbotron {
+    position: relative;
+    width: 100%;
+    height: 500px;
+    padding: 0;
+    box-shadow: lightgrey;
+}
+
+.btn {
+    padding: 10px;
+    margin: 5px;
+}
+
+.jumbotron .caption{
+    position: absolute;
+    top: 30%;
+    width: 100%;
+    text-align: center;
+}
+
+.jumbotron h1 {
+    font-size: 50px;
+}
+
+.jumbotron p{
+    font-size: 30px;
+}
+
+.jumbotron .background-image{
+    height: 100%;
+    background-image: url(images/logo-image.png);
+    background-size: cover;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 30px;
+    color: white;
+    background-color: blue;
+    text-align: center;
+}
