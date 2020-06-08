@@ -36,7 +36,7 @@ app.get('/', (req,res) => {
 });
 
 // Connect to the Mongo DB
-mongoose.connect("mongodb://localhost/newsscrapedb", { useNewUrlParser: true });
+mongoose.connect("mongodb://localhost/scraper", { useNewUrlParser: true });
 
 // Routes
 
@@ -83,7 +83,8 @@ app.get("/articles", function(req, res) {
     db.Article.find({})
       .then(function(dbArticle) {
         // If we were able to successfully find Articles, send them back to the client
-        res.json(dbArticle);
+        //res.json(dbArticle);
+        res.render('index', {articles:dbArticle});
       })
       .catch(function(err) {
         // If an error occurred, send it to the client
@@ -191,11 +192,7 @@ app.get("/populateduser", function(req, res) {
     });
 });
 */
-/*
-// Start the server
-app.listen(PORT, function() {
-  console.log("App running on port " + PORT + "!");
-});*/
+
 
 app.listen(PORT, () => console.log('App listening to port ' + PORT));
 

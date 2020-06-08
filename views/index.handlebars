@@ -16,7 +16,7 @@
                     <a class="nav-link" href="/saved">Saved Articles</a>
                 </li>
                 <li class="nav-item">
-                    <form action="/scrape" method="POST" class="navbar-form">
+                    <form action="/scrape" method="GET" class="navbar-form">
                         <button type="submit" class="btn btn-danger scrape-new">Scrape New Articles!</button>
                     </form>
                 </li>
@@ -42,7 +42,7 @@
         <h2><i>Articles</i></h2>
         {{#each articles}}
         <div class="col-md-9">
-            <h3 class="panel-title pull-left">{{this.title}}</h3>
+            <h3 class="panel-title pull-left">{{this.link}}</h3>
         </div>
         <div class="col-md-3">
             <form action="/save" method="POST">
@@ -65,9 +65,9 @@
 
 <footer class="footer">
     <div class="container">
-        <p>Democracy Now News Scraper</p>
         <p class="float-right">
             <a href="#">Back to top</a>
         </p>
+        <p>Democracy Now News Scraper</p>
     </div>
 </footer>
