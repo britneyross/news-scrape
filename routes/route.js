@@ -9,11 +9,11 @@ const Note = require("../models/note.js");
 const Article = require("../models/article.js");
 
 // Initialize Express
-var app = express();
+const app = express();
 
 
 // Require all models
-var db = require("../models");
+const db = require("../models");
 
 // A GET route for scraping the echoJS website
 app.get("/scrape", function(req, res) {
