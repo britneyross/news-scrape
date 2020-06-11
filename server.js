@@ -26,16 +26,12 @@ app.use(express.json());
 // Make public a static folder
 app.use(express.static("public"));
 
-app.get('/', (req,res) => {
-    res.render('index', {layout : 'main'});
-});
-
 const db = mongoose.connection;
 // Connect to the Mongo DB
 mongoose.connect("mongodb://localhost/newsscraper", { useNewUrlParser: true });
 db.on("error", console.error.bind(console, "connection error: "));
 db.once("open", function(){
-  console.log("Connected to Mongoose");
+    console.log("Connected to Mongoose");
 });
 
 const routes = require("./routes/route.js");
