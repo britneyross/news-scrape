@@ -1,6 +1,4 @@
 //Dependencies 
-const axios = require("axios");
-const cheerio = require("cheerio");
 const express = require("express");
 const exphbs = require("express-handlebars");
 const mongoose = require("mongoose");
@@ -34,7 +32,7 @@ app.get('/', (req,res) => {
 
 const db = mongoose.connection;
 // Connect to the Mongo DB
-mongoose.connect("mongodb://localhost/scraper", { useNewUrlParser: true });
+mongoose.connect("mongodb://localhost/newsscraper", { useNewUrlParser: true });
 db.on("error", console.error.bind(console, "connection error: "));
 db.once("open", function(){
   console.log("Connected to Mongoose");
