@@ -30,7 +30,7 @@ const db = mongoose.connection;
 // Connect to the Mongo DB
 mongoose.connect("mongodb://localhost/newsscraper", { useNewUrlParser: true });
 db.on("error", console.error.bind(console, "connection error: "));
-db.once("open", function(){
+db.once("open", () => {
     console.log("Connected to Mongoose");
 });
 

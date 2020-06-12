@@ -19,14 +19,13 @@ app.get("/", (req, res) => {
         });
 });
 
-// A GET route for scraping the echoJS website
+// A GET route for scraping the Democracy Now website
 app.get("/scrape", function (req, res) {
     // First, we grab the body of the html with axios
     axios.get("https://www.democracynow.org/").then(function (response) {
         // Then, we load that into cheerio and save it to $ for a shorthand selector
         var $ = cheerio.load(response.data);
 
-        // Now, we grab every h2 within an article tag, and do the following:
         $(".news_item h3").each(function (i, element) {
             // Save an empty result object
             var result = {};
@@ -64,6 +63,20 @@ app.get("/clearall", function(req, res) {
       console.log(response);
     }
     res.redirect("/");
+  });
+});
+
+app.get("/saved", function(req,  res){
+  db.Article.find({})
+  .where('saved').equals(true)
+  .where('deleted').equals(false)
+  .exec(function(err, articles){
+    if(err){
+      console.log(err);
+    } else {
+      console.log(articles);
+    };
+    res.render("saved");
   });
 });
 
