@@ -50,4 +50,21 @@ app.get("/scrape", function (req, res) {
     });
 });
 
+// Clear the DB
+app.get("/clearall", function(req, res) {
+  db.Article.remove({}, function(error, response) {
+    // Log any errors to the console
+    if (error) {
+      console.log(error);
+      res.send(error);
+    }
+    else {
+      // Otherwise, send the mongojs response to the browser
+      // This will fire off the success function of the ajax request
+      console.log(response);
+    }
+    res.redirect("/");
+  });
+});
+
 module.exports = app;
