@@ -16,7 +16,9 @@
         <div class="col col-md-10">
             <div class="card-panel">
                 <h4><a href="{{this.link}}">{{this.title}}</a></h4>
-                <a href="/saved/{{this._id}}" class="btn btn-primary" id="saveBtn" method="POST">Save Article</a>
+                <form class = "form in-line" action = "/submit/{{this._id}}" name="_METHOD" value="PUT">
+                    <button data-id={{this._id}} type="submit" name="_METHOD" value="PUT" class= "btn btn-success">Save Article</button>
+                </form>
             </div>
         </div>
     </div>

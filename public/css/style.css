@@ -20,15 +20,16 @@
 
 .jumbotron h1 {
     font-size: 50px;
+    color: white;
 }
 
 .jumbotron p{
-    font-size: 30px;
+    font-size: 40px;
+    color: white;
 }
 
-.jumbotron .background-image{
-    height: 100%;
-    /*background-image: url(../images/logo-image.png);*/
+.jumbotron {
+    background-image: url("../images/background.jpg") !important;
     background-size: cover;
 }
 
