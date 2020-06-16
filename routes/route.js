@@ -96,8 +96,7 @@ app.put("/submit/:id", function (req, res) {
       res.send(err);
     }
     res.send(raw);
-
   });
-  });
+});
 
-  module.exports = app;
+module.exports = app;
