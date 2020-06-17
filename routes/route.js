@@ -8,17 +8,6 @@ const app = express();
 // Require all models
 const db = require("../models");
 
-app.get("/", (req, res) => {
-  db.Article.find({})
-    .lean()
-    .then(function (data) {
-      res.render("index", { articles: data });
-    })
-    .catch(function (err) {
-      res.json(err);
-    });
-});
-
 // A GET route for scraping the Democracy Now website
 app.get("/scrape", function (req, res) {
   // First, we grab the body of the html with axios
@@ -49,6 +38,17 @@ app.get("/scrape", function (req, res) {
   });
 });
 
+app.get("/", (req, res) => {
+  db.Article.find({})
+    .lean()
+    .then(function (data) {
+      res.render("index", { articles: data });
+    })
+    .catch(function (err) {
+      res.json(err);
+    });
+});
+
 // Clear the DB
 app.get("/clearall", function (req, res) {
   db.Article.remove({}, function (error, response) {
@@ -58,8 +58,6 @@ app.get("/clearall", function (req, res) {
       res.send(error);
     }
     else {
-      // Otherwise, send the mongojs response to the browser
-      // This will fire off the success function of the ajax request
       console.log(response);
     }
     res.redirect("/");
@@ -67,6 +65,18 @@ app.get("/clearall", function (req, res) {
 });
 
 app.get("/saved", function (req, res) {
+  db.Article.find({ saved: true })
+      .lean()
+      .then(function (data) {
+          res.render("saved", {
+              message: "Saved",
+              saved: data,
+              nothing: "There are no saved articles yet!",
+          });
+      });
+});
+
+/*app.get("/saved", function (req, res) {
   db.Article.find({})
     .where('saved').equals(true)
     .exec(function (err, article) {
@@ -77,26 +87,45 @@ app.get("/saved", function (req, res) {
       };
       res.render("saved");
     });
+});*/
+
+app.get("/saved/:id", function (req, res) {
+  db.Article.findOne({ _id: req.params.id })
+      .populate("note")
+      .then(function (dbArticle) {
+          res.json(dbArticle);
+      })
+      .catch(function (err) {
+          res.json(err);
+      });
 });
 
-app.put("/submit/:id", function (req, res) {
-  // Create a new article in the database
-  /*db.Saved.create(req.body)
-    .then(function(dbSaved) {
-      return db.Article.findOneAndUpdate({}, { $push: { articles: dbSaved._id } }, { new: true });
-    })
-    .then(function(dbArticle) {
-      res.json(dbArticle);
-    })
-    .catch(function(err) {
-      res.json(err);
-    });*/
-  db.Article.update({ _id: req.params.id }, { saved: true }, function (err, raw) {
-    if (err) {
-      res.send(err);
-    }
-    res.send(raw);
-  });
+app.post("/saved/:id", function (req, res) {
+  db.Note.create(req.body)
+      .then(function (dbNote) {
+          return db.Article.findOneAndUpdate(
+              { _id: req.params.id },
+              {$push: { note: dbNote._id }},
+              { new: true }
+          );
+      })
+      .then(function (dbArticle) {
+          res.json(dbArticle);
+      })
+      .catch(function (err) {
+          res.json(err);
+      });
+});
+
+app.put("/saved/:id", function (req, res) {
+  db.Article.updateOne({ _id: req.params.id }, { saved: req.body.saved })
+      .populate("note")
+      .then(function (data) {
+          res.json(data);
+      })
+      .catch(function (err) {
+          res.json(err);
+      });
 });
 
 module.exports = app;

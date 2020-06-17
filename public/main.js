@@ -1,4 +1,4 @@
-let data = {"saved":true}
+/*let data = {"saved":true}
 
 //user_id = get data-id value;
 
@@ -14,4 +14,4 @@ $.ajax({
     console.log('FAIL');
 }).always(function (msg) {
     console.log('ALWAYS');
-});
+});*/
