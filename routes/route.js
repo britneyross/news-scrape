@@ -65,31 +65,33 @@ app.get("/clearall", function (req, res) {
 });
 
 app.get("/saved", function (req, res) {
-  db.Article.find({ saved: true })
+  db.Article.find({ Saved: true })
       .lean()
       .then(function (data) {
-          res.render("saved", {
-              message: "Saved",
-              saved: data,
-              nothing: "There are no saved articles yet!",
-          });
+        res.render("saved", { Saved: data });
+          //res.json(data);
       });
 });
 
-/*app.get("/saved", function (req, res) {
-  db.Article.find({})
-    .where('saved').equals(true)
-    .exec(function (err, article) {
-      if (err) {
-        console.log(err);
-      } else {
-        console.log(article);
-      };
-      res.render("saved");
-    });
-});*/
+// save an article
+app.post('/saved/:id', function(req, res) {
+  //res.json({status:"done"});
+  db.Article.findByIdAndUpdate(req.params.id, {
+      $set: { Saved: true}
+      },
+      function(error, doc) {
+          if (error) {
+              console.log(error);
+              res.status(500);
+          } else {
+              res.redirect('/');
+              //res.json({status:"done"});
+          }
+      });
+});
 
-app.get("/saved/:id", function (req, res) {
+
+/*app.get("/saved/:id", function (req, res) {
   db.Article.findOne({ _id: req.params.id })
       .populate("note")
       .then(function (dbArticle) {
@@ -98,30 +100,18 @@ app.get("/saved/:id", function (req, res) {
       .catch(function (err) {
           res.json(err);
       });
-});
+});*/
 
-app.post("/saved/:id", function (req, res) {
+app.post("/savedNote/:id", function (req, res) {
   db.Note.create(req.body)
       .then(function (dbNote) {
-          return db.Article.findOneAndUpdate(
+          return db.Note.findOneAndUpdate(
               { _id: req.params.id },
-              {$push: { note: dbNote._id }},
-              { new: true }
+              {$push: { Note: dbNote }},
           );
       })
-      .then(function (dbArticle) {
-          res.json(dbArticle);
-      })
-      .catch(function (err) {
-          res.json(err);
-      });
-});
-
-app.put("/saved/:id", function (req, res) {
-  db.Article.updateOne({ _id: req.params.id }, { saved: req.body.saved })
-      .populate("note")
-      .then(function (data) {
-          res.json(data);
+      .then(function (dbNote) {
+          res.json(dbNote);
       })
       .catch(function (err) {
           res.json(err);
