@@ -1,16 +1,18 @@
 <div class="row">
-    <h3>Saved Articles</h3>
+    <h3>Saved Articles:</h3>
 </div>
-    {{#if Saved}}
-    {{#each Saved}}
+
+
+{{#if Saved}}
+{{#each Saved}}
 <div class="row">
     <div class="col s2"></div>
     <h3>{{title}}</h3>
-    <form action="/saved/{{_id}}" method="POST" class="card-panel col s8">
+    <form action="/savedNote/{{_id}}" method="POST" class="card-panel col s8">
         <h5>Comment on this article</h5>
         <div class="row">
             <div class="input-field">
-                <input id="comment_input" type="text" placeholder="Comment" name="comment" class="validate active">
+                <input type="text" placeholder="Comment" name="com">
             </div>
         </div>
 
@@ -21,23 +23,21 @@
         </div>
     </form>
 </div>
-    {{/each}}
-    {{else}}
-    <h3 class="text-center">No saved articles yet!</h3>
-    {{/if}}
+
 
 <div class="row">
     <div class="col s2"></div>
     <div class="col s8">
         <h5>Notes:</h5>
-        {{#if Saved.Note}}
-        {{#each Saved.Note}}
+        {{#each this.Note}}
         <div class="card">
-            <p>{{body}}</p>
+            <p>{{@index}}:{{this.body}}</p>
         </div>
         {{/each}}
-        {{else}}
-        <p>No notes yet</p>
-        {{/if}}
     </div>
 </div>
+{{/each}}
+{{else}}
+<h3 class="text-center">No saved articles yet!</h3>
+{{/if}}
+

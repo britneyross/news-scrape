@@ -26,11 +26,9 @@ app.get("/scrape", function (req, res) {
       // Create a new Article using the `result` object built from scraping
       db.Article.create(result)
         .then(function (dbArticle) {
-          // View the added result in the console
           console.log(dbArticle);
         })
         .catch(function (err) {
-          // If an error occurred, log it
           console.log(err);
         });
     });
@@ -52,7 +50,6 @@ app.get("/", (req, res) => {
 // Clear the DB
 app.get("/clearall", function (req, res) {
   db.Article.remove({}, function (error, response) {
-    // Log any errors to the console
     if (error) {
       console.log(error);
       res.send(error);
@@ -66,56 +63,41 @@ app.get("/clearall", function (req, res) {
 
 app.get("/saved", function (req, res) {
   db.Article.find({ Saved: true })
-      .lean()
-      .then(function (data) {
-        res.render("saved", { Saved: data });
-          //res.json(data);
-      });
+    .lean()
+    .then(function (data) {
+      res.render("saved", { Saved: data });
+    });
 });
 
 // save an article
-app.post('/saved/:id', function(req, res) {
-  //res.json({status:"done"});
+app.post('/saved/:id', function (req, res) {
   db.Article.findByIdAndUpdate(req.params.id, {
-      $set: { Saved: true}
-      },
-      function(error, doc) {
-          if (error) {
-              console.log(error);
-              res.status(500);
-          } else {
-              res.redirect('/');
-              //res.json({status:"done"});
-          }
-      });
+    $set: { Saved: true }
+  },
+    function (error, doc) {
+      if (error) {
+        console.log(error);
+        res.status(500);
+      } else {
+        res.redirect('/');
+      }
+    });
 });
-
-
-/*app.get("/saved/:id", function (req, res) {
-  db.Article.findOne({ _id: req.params.id })
-      .populate("note")
-      .then(function (dbArticle) {
-          res.json(dbArticle);
-      })
-      .catch(function (err) {
-          res.json(err);
-      });
-});*/
 
 app.post("/savedNote/:id", function (req, res) {
-  db.Note.create(req.body)
-      .then(function (dbNote) {
-          return db.Note.findOneAndUpdate(
-              { _id: req.params.id },
-              {$push: { Note: dbNote }},
-          );
-      })
-      .then(function (dbNote) {
-          res.json(dbNote);
-      })
-      .catch(function (err) {
-          res.json(err);
-      });
+  db.Article.findByIdAndUpdate(req.params.id, {
+    $push: { Note: { body: req.body.com } }
+  },
+    function (error, doc) {
+      if (error) {
+        console.log(error);
+        res.status(500);
+      } 
+      else {
+        res.redirect('/saved');
+      }
+    });
 });
+
 
 module.exports = app;
