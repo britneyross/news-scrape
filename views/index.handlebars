@@ -15,7 +15,7 @@
     <div class="row">
         <div class="col col-md-10">
             <div class="card-panel">
-                <h4><a href="https://www.democracynow.org/{{_id}}">{{title}}</a><h4>
+                <h4><a href="https://www.democracynow.org/{{link}}">{{title}}</a><h4>
                 <form class = "form in-line" action = "/saved/{{_id}}" method="POST">
                     <button data-id={{_id}} type="submit" class= "btn btn-success">Save Article</button>
                 </form>
@@ -24,3 +24,5 @@
     </div>
     {{/each}}
 </div>
+
+
