@@ -26,9 +26,11 @@ app.use(express.json());
 // Make public a static folder
 app.use(express.static("public"));
 
+const databaseurl = process.env.MONGODB_URI || 'mongodb://localhost/newsscraper';
+
 const db = mongoose.connection;
 // Connect to the Mongo DB
-mongoose.connect("mongodb://localhost/newsscraper", { useNewUrlParser: true });
+mongoose.connect(databaseurl, { useNewUrlParser: true });
 db.on("error", console.error.bind(console, "connection error: "));
 db.once("open", () => {
     console.log("Connected to Mongoose");
