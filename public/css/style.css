@@ -42,3 +42,7 @@
     background-color: blue;
     text-align: center;
 }
+
+.card-panel {
+    padding: 10px;
+}
